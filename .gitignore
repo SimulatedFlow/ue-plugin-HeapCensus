@@ -1,0 +1,11 @@
+.history/
+.vscode/
+.idea/
+Thumbs.db
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+*.pdb
+.vs/
+StoreArt/*.log

@@ -1,0 +1,27 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"EngineVersion": "5.8.0",
+	"FriendlyName": "HeapCensus - Which Class Is Growing, And What Garbage Collection Costs",
+	"Description": "HeapCensus counts UObjects and measures the collection. It does not track raw C++ memory - there is no new, no allocator hook - it does not replace Memory Insights, and it does not tell you who is holding an object; obj refs does that, and the documentation names it as the next step. What it does is answer the question you have after forty minutes of play and no tool answers today: which class is growing? Not which class is big - a game with 400 projectiles is healthy - but which class gains objects every minute. HeapCensus walks the object array on a timer, keeps a ring buffer of the last N counts per class, fits a line through it and reports the slope in objects per minute. Around that it measures the collection itself on the engine's own hooks: how long the last run took, the average, the worst, how far apart the runs are and how many objects each one freed - because a leak in Unreal does not look like a leak. The frame rate stays fine, and one day the game starts stuttering in time with garbage collection, because the graph keeps getting bigger. The counter box is drawn on UCanvas from an AHUD, so it survives cooking and is still there in a packaged Shipping build: total objects, the collection figures, and the five fastest-growing classes with their +n/min. Measuring is never allowed to be the most expensive thing in the frame, so the walk runs on an interval rather than every frame, and the cost of the walk itself is printed in the box next to everything else - if you sell a measurement you have to put a price tag on it. And HeapCensus.Gate <seconds> is the part a build server runs overnight: it measures, fits a slope per class, writes Saved/HeapCensus/report.json and ends the process with 0 when nothing grows, 1 when something is climbing and 2 when a class grew monotonically over the whole soak and broke the threshold - the same three exit codes as LoadLens, LocaleGuard and AssetWarden. Heap.Leak <n> deliberately creates and holds n objects a second, so you can watch the slope react without first having to build a leak into your own game.",
+	"Category": "Engine Tools",
+	"CreatedBy": "Silvan Teufel",
+	"CreatedByURL": "https://silvan.teufel-engineering.com",
+	"DocsURL": "https://wiki.teufel-engineering.com/en/HeapCensus/documentation",
+	"SupportURL": "mailto:teufelsilvan@gmail.com",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "HeapCensus",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	]
+}
